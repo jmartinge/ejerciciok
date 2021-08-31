@@ -1,6 +1,6 @@
 <?php
     $host = 'localhost';
-    $dbname = 'sitesirv_cdp';
-    $us = 'sitesirv';
-    $pass = '@X5bF8M6yrsF1]';
+    $dbname = 'sitesirv_workexamples';
+    $us = 'sitesirv_works';
+    $pass = '3X4mpl35_1985';
 ?>

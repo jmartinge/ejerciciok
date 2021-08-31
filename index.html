@@ -7,11 +7,242 @@
         <meta charset="utf-8">
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <link rel="stylesheet" href="../frameworks/css/bootstrap.css">
-        <script src=”../jquery.js”></script>
+        <script src="../jquery.js"></script>
+        <style type="text/css">
+            body{
+                background-color: #632b83;
+                color: white;
+            }
+            div{
+                margin-top: 1em;
+            }
+            div.container-fluid{
+                margin-top: 1em;
+                padding-inline: 5%;
+            }
+        </style>
     </head>
-    <body>
-        <form class="row" novalidate>
-
-        </form>
+    <body class="text-center">
+        <nav class="navbar navbar-ligth bg-dark">
+            <div class="container-fluid">
+                <span class="navbar-text" id="navbar"> 
+                    Registro de Usuario    
+                </span>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <form class="row g-6 needs-validation mp-5" novalidate>
+                <div class="col-md-4">
+                    <label for="nombres" class="form-label">Nombre(s)</label>
+                    <input type="text" class="form-control" id="nombres" required>
+                    <div class="valid-feedback" id="nombresver">
+                        
+                    </div>
+                    <div class="invalid-feedback">
+                        Por favor ingrese su(s) nombre(s)
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="apellidop" class="form-label">Appelido Paterno</label>
+                    <input type="text" class="form-control" id="apellidop" required>
+                    <div class="valid-feedback" id="apellidopver">
+                        
+                    </div>
+                    <div class="invalid-feedback">
+                        Por favor ingrese su apellido paterno
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="apellidom" class="form-label">Appelido Materno</label>
+                    <input type="text" class="form-control" id="apellidom" required>
+                    <div class="valid-feedback" id="apellidomver">
+                        
+                    </div>
+                    <div class="invalid-feedback">
+                        Por favor ingrese su apellido materno
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="fechan" class="form-label">Fecha de Nacimiento</label>
+                    <input type="date" class="form-control" id="fechan" required>
+                    <div class="valid-feedback" id="fechanver">
+                    </div>
+                    <div class="invalid-feedback">
+                        Falta su fecha de nacimiento
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="correo" class="form-label">Correo</label>
+                    <input type="email" class="form-control" id="correo" required>
+                    <div class="invalid-feedback">
+                        Ingrese un correo válido
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="celular" class="form-label">Teléfono Celular</label>
+                    <input type="number" class="form-control" id="celular" required>
+                    <div class="invalid-feedback">
+                        Ingrese su teléfono celular
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="pass" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="pass" required>
+                    <div class="valid-feedback" id="passver">
+                        
+                    </div>
+                    <div class="invalid-feedback">
+                        Por favor ingrese una contraseña
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="passc" class="form-label">Confirmar Contraseña</label>
+                    <input type="password" class="form-control" id="passc" required>
+                    <div class="valid-feedback" id="passcver">
+                        
+                    </div>
+                    <div class="invalid-feedback">
+                        Por favor confirme su contraseña
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-outline-light" type="submit" id="submit">Registrar</button>
+                </div>
+            </form>    
+        </div>
     </body>
+    <script>
+        (function () {
+            'use strict'
+            
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+            
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                        fpost
+                    }
+                    
+                    form.classList.add('was-validated')
+
+
+                }, false)
+            })
+        })()
+    </script>
+    <script>
+        $('#pass').keyup( function(e) {
+            var alta = new RegExp("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
+            var media = new RegExp("^(?=.{7,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$", "g");
+            var baja = new RegExp("(?=.{6,}).*", "g");
+            if ( false == baja.test( $( this ).val() ) ) {
+                $('#passver').html('Necesitas una contraseña más larga');
+                $('#passver').css('color','#dc3545');
+            } else if ( alta.test( $( this ).val() ) ) {
+                $('#passver').html('Contraseña muy segura');
+                $('#passver').css('color','#28a745');
+            } else if ( media.test( $( this ).val() ) ) {
+                $('#passver').html('Contraseña segura');
+                $('#passver').css('color','#28a745');
+            } else {
+                $('#passver').html('Contraseña Débil');
+                $('#passver').css('color','#dc3545');
+            }
+            compara();
+            return true;
+        });
+
+        $('#passc').keyup( comparapass);
+
+
+        $('#fechan').keyup(  fechacom);
+        $('#fechan').change(  fechacom);
+        $('#nombres').keyup( function(e) {
+            if ( largot( $(this).val() ) ){
+                $('#nombresver').html('');
+                $('#nombresver').css('color','#28a745');                
+            } else {
+                $('#nombresver').html('Introduce un nombre valido');
+                $('#nombresver').css('color','#dc3545');                
+            }
+        } );
+        $('#nombres').keyup( function(e) {
+            if ( largot( $(this).val() ) ){
+                $('#nombresver').html('');
+                $('#nombresver').css('color','#28a745');                
+            } else {
+                $('#nombresver').html('Introduce un nombre valido');
+                $('#nombresver').css('color','#dc3545');                
+            }
+        } );
+
+        function fechacom(){
+            var fechamax = new Date();
+            var ano = fechamax.getFullYear();
+            var fechaset = new Date($('#fechan').val());
+            var anoset = fechaset.getFullYear();
+            if ( anoset >= ( ano - 18) ) {
+                $('#fechanver').html('Debes de ser mayor de edad');
+                $('#fechanver').css('color','#dc3545');
+                return false;
+            } else {
+                $('#fechanver').html('');
+                $('#fechanver').css('color','#28a745');
+                return true;
+            }
+        }
+
+        function comparapass(){
+            if ( $('#pass').val() != $('#passc').val() ) {
+                $('#passcver').html('Las contraseñas no coinciden');
+                $('#passcver').css('color','#dc3545');
+            } else {
+                $('#passcver').html('Contraseña verificada');
+                $('#passcver').css('color','#28a745');
+            }
+        }
+
+        function largot(val){
+            var compreg = new RegExp("(?=.{3,250}).*", "g");
+            var textoin = val;
+            if ( false == compreg.test( textoin ) ){
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function fpost() {
+            var vdata = {
+                "correo" : $('#correo').val,
+                "nombres" : $('#nombres').val,
+                "apellidop" : $('#apellidop').val,
+                "apellidom" : $('#apellidom').val,
+                "fechan" : $('#fechan').val,
+                "celular" : $('#celular').val,
+                "pass" : $.md5($('#pass').val),
+                "correo" : $('#correo').val,
+                "correo" : $('#correo').val,
+            };
+
+            $.ajax({
+                data: vdata,
+                url: 'reg.php',
+                type: 'post',
+                beforeSend: function(){
+                    $('#submit').css('visibility','hidden')
+                    $('#navbar').html('Se está registrando el usuario por favor espere....');
+                },
+                success: function(response){
+                    $('#submit').css('visibility','visible')
+                    $('#navbar').html(response.men);
+                }
+            });
+        }
+    </script>
 </html>
