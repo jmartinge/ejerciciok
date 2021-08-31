@@ -31,7 +31,7 @@
             </div>
         </nav>
         <div class="container-fluid">
-            <form class="row g-6 needs-validation mp-5" novalidate>
+            <form id="fuser" class="row g-6 needs-validation mp-5" novalidate>
                 <div class="col-md-4">
                     <label for="nombres" class="form-label">Nombre(s)</label>
                     <input type="text" class="form-control" id="nombres" required>
@@ -108,27 +108,29 @@
                 <div class="col-12">
                     <button class="btn btn-outline-light" type="submit" id="submit">Registrar</button>
                 </div>
-            </form>    
-        </div>
+                </form>    
+    </div>
     </body>
     <script>
         (function () {
             'use strict'
             
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
             var forms = document.querySelectorAll('.needs-validation')
             
-            // Loop over them and prevent submission
             Array.prototype.slice.call(forms)
             .forEach(function (form) {
                 form.addEventListener('submit', function (event) {
                     if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                        fpost
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }else {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        fpost();
                     }
-                    
-                    form.classList.add('was-validated')
+                    form.classList.add('was-validated');
+                    event.preventDefault();
+                    event.stopPropagation();
 
 
                 }, false)
@@ -153,7 +155,7 @@
                 $('#passver').html('Contraseña Débil');
                 $('#passver').css('color','#dc3545');
             }
-            compara();
+            comparapass();
             return true;
         });
 
@@ -218,29 +220,55 @@
         }
 
         function fpost() {
-            var vdata = {
+            /*var vdata = {
                 "correo" : $('#correo').val,
                 "nombres" : $('#nombres').val,
                 "apellidop" : $('#apellidop').val,
                 "apellidom" : $('#apellidom').val,
                 "fechan" : $('#fechan').val,
                 "celular" : $('#celular').val,
-                "pass" : $.md5($('#pass').val),
+                "pass" : $('#pass').val,
                 "correo" : $('#correo').val,
-                "correo" : $('#correo').val,
-            };
+                "correo" : $('#correo').val
+            };*/
 
             $.ajax({
-                data: vdata,
                 url: 'reg.php',
-                type: 'post',
+                type: 'POST',
+                data: { json: JSON.stringify({
+                    men: "Procesando información",
+                    correo : $('#correo').val(),
+                    nombres : $('#nombres').val(),
+                    apellidop : $('#apellidop').val(),
+                    apellidom : $('#apellidom').val(),
+                    fechan : $('#fechan').val(),
+                    celular : $('#celular').val(),
+                    pass : $('#pass').val()
+                })},
+                dataType: 'json',
+
+                /*data: JSON.stringify({
+                    "correo" : $('#correo').val,
+                    "nombres" : $('#nombres').val,
+                    "apellidop" : $('#apellidop').val,
+                    "apellidom" : $('#apellidom').val,
+                    "fechan" : $('#fechan').val,
+                    "celular" : $('#celular').val,
+                    "pass" : $('#pass').val,
+                    "correo" : $('#correo').val,
+                    "correo" : $('#correo').val
+                }),
+                dataType: 'json',
+                url: 'reg.php',
+                type: 'POST',
+                contentType: 'application/json',*/
                 beforeSend: function(){
                     $('#submit').css('visibility','hidden')
                     $('#navbar').html('Se está registrando el usuario por favor espere....');
                 },
                 success: function(response){
                     $('#submit').css('visibility','visible')
-                    $('#navbar').html(response.men);
+                    $('#navbar').html(response);
                 }
             });
         }
